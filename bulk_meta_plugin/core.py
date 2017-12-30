@@ -9,7 +9,7 @@
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
-# This file is part of TVAF and is licensed under GNU General Public License 3.0, or later, with
+# This file is part of YATFS and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
@@ -33,7 +33,7 @@ class MetadataReceivedEvent(DelugeEvent):
         self._args = [torrent_id]
 
 
-class TrackerErrorEvent(DelugeEvent):
+class BulkMetaTrackerErrorEvent(DelugeEvent):
 
     def __init__(self, torrent_id, tracker_url, error_message, times_in_row,
                  status_code, error):
@@ -58,16 +58,16 @@ class Core(CorePluginBase):
             "tracker_error_alert", self.on_tracker_error)
 
         self.pluginmanager.register_status_field(
-            "has_metadata", self.get_has_metadata)
+            "bulk_meta_has_metadata", self.get_has_metadata)
         self.pluginmanager.register_status_field(
-            "upload_mode", self.get_upload_mode)
+            "bulk_meta_upload_mode", self.get_upload_mode)
 
     def disable(self):
         self.alertmanager.deregister_handler(self.on_metadata_received)
         self.alertmanager.deregister_handler(self.on_tracker_error)
 
-        self.pluginmanager.deregister_status_field("has_metadata")
-        self.pluginmanager.deregister_status_field("upload_mode")
+        self.pluginmanager.deregister_status_field("bulk_meta_has_metadata")
+        self.pluginmanager.deregister_status_field("bulk_meta_upload_mode")
 
     def update(self):
         pass
@@ -105,7 +105,7 @@ class Core(CorePluginBase):
             status_code = alert.status_code
             e = alert.error
             error = {"message": e.message(), "value": e.value()}
-            self.eventmanager.emit(TrackerErrorEvent(
+            self.eventmanager.emit(BulkMetaTrackerErrorEvent(
                 torrent_id, tracker_url, error_message, times_in_row,
                 status_code, error))
         except:
