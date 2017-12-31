@@ -16,7 +16,7 @@
 
 from setuptools import setup, find_packages
 
-__plugin_name__ = "bulk_meta"
+__plugin_name__ = "BulkMetaRpc"
 __author__ = "AllSeeingEyeTolledEweSew"
 __author_email__ = "allseeingeyetolledewesew@protonmail.com"
 __version__ = "1.0.0"
@@ -25,7 +25,7 @@ __license__ = "GPLv3"
 __description__ = "Helper plugin for the BTN bulk metadata downloader."
 
 setup(
-    name="bulk_meta_plugin",
+    name=__plugin_name__,
     version=__version__,
     description=__description__,
     author=__author__,

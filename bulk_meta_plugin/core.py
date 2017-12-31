@@ -58,16 +58,16 @@ class Core(CorePluginBase):
             "tracker_error_alert", self.on_tracker_error)
 
         self.pluginmanager.register_status_field(
-            "bulk_meta_has_metadata", self.get_has_metadata)
+            "bulkmetarpc.has_metadata", self.get_has_metadata)
         self.pluginmanager.register_status_field(
-            "bulk_meta_upload_mode", self.get_upload_mode)
+            "bulkmetarpc.upload_mode", self.get_upload_mode)
 
     def disable(self):
         self.alertmanager.deregister_handler(self.on_metadata_received)
         self.alertmanager.deregister_handler(self.on_tracker_error)
 
-        self.pluginmanager.deregister_status_field("bulk_meta_has_metadata")
-        self.pluginmanager.deregister_status_field("bulk_meta_upload_mode")
+        self.pluginmanager.deregister_status_field("bulkmetarpc.has_metadata")
+        self.pluginmanager.deregister_status_field("bulkmetarpc.upload_mode")
 
     def update(self):
         pass
